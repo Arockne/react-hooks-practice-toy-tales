@@ -1,14 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 
-function ToyCard({ toy, onDonation }) {
+function ToyCard({ toy, onDonation, onLike }) {
   const {id, name, image, likes} = toy
 
-  function handleClick() {
+  function handleDonationClick() {
     onDonation(id)
     fetch(`http://localhost:3001/toys/${id}`, {
       method: 'DELETE'
     })
   }
+
+  function handleLikeClick() {
+    fetch(`http://localhost:3001/toys/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ likes: likes + 1 })
+    })
+    .then(r => r.json())
+    .then(data => {
+      onLike(data.id)
+    })
+  }
+
   return (
     <div className="card">
       <h2>{name}</h2>
@@ -18,8 +33,8 @@ function ToyCard({ toy, onDonation }) {
         className="toy-avatar"
       />
       <p>{likes} Likes </p>
-      <button className="like-btn">Like {"<3"}</button>
-      <button className="del-btn" onClick={handleClick}>Donate to GoodWill</button>
+      <button className="like-btn" onClick={handleLikeClick}>Like {"<3"}</button>
+      <button className="del-btn" onClick={handleDonationClick}>Donate to GoodWill</button>
     </div>
   );
 }
