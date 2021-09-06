@@ -39,10 +39,10 @@ function App() {
     setToys(toys.filter(toy => toy.id !== id))
   }
 
-  function handleLike(id) {
+  function handleLike(id, likes) {
     setToys(toys.map(toy => {
       if (toy.id === id) {
-        return { ...toy, likes: (toy.likes + 1)}
+        return { ...toy, likes }
       }
       return toy;
     }))

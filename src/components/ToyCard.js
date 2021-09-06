@@ -19,9 +19,7 @@ function ToyCard({ toy, onDonation, onLike }) {
       body: JSON.stringify({ likes: likes + 1 })
     })
     .then(r => r.json())
-    .then(data => {
-      onLike(data.id)
-    })
+    .then(data => onLike(data.id, data.likes))
   }
 
   return (
